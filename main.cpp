@@ -55,85 +55,105 @@ Purpose:  This project will show you the difference between member functions and
 #include <iostream>
 #include <string>
 struct T
+
 {
-    T(<#type name#> v, const char* <#variable name#>)   //1
-    //2
-    //3
+    T(int v, const char* n) : //1
+    value(v),
+    name(n)
+    {
+        
+    }
+    int value; //2
+    std::string name; //3
 };
 
-struct <#structName1#>                                //4
+struct CompareF                                //4
 {
-    <#type name#> compare(<#type name#> a, <#type name#> b) //5
+    T* compare(T* a, T* b) //5
     {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+        if (a!= nullptr && b != nullptr)
+        {
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
+            return nullptr;
+        }
         return nullptr;
     }
 };
 
 struct U
 {
-    float <#name1#> { 0 }, <#name2#> { 0 };
-    <#returnType#> <#memberFunction#>(<#type name#>* <#updatedValue#>)      //12
+    float val1 { 0 }, val2 { 0 };
+    float valUpdate(float* updatedValue)      //12
     {
-        
+        if(updatedValue != nullptr)
+        {
+            std::cout << "U -> val1: " << val1 << std::endl;
+            val1 = *updatedValue;
+            std::cout << "U -> val1 updated: " << val1 << std::endl;
+
+            while(std::abs(val2 - val1) > 0.001f)
+            {
+                val2 += 0.01f;
+            }
+            
+            std::cout << "U -> val2 updated: " << val2 << std::endl;
+            return val1 * val2;
+        }
+        return 0.0f;
     }
 };
 
-struct <#structname2#>
+struct UU
 {
-    static <#returntype#> <#staticFunctionA#>(U* that, <#type name#>* <#updatedValue#> )        //10
+    static float updateU(U* that, float* updatedValue )        //10
     {
-        std::cout << "U's <#name1#> value: " << that-><#name1#> << std::endl;
-        that-><#name1#> = <#updatedValue#>;
-        std::cout << "U's <#name1#> updated value: " << that-><#name1#> << std::endl;
-        while( std::abs(that-><#name2#> - that-><#name1#>) > 0.001f )
+        if(that != nullptr && updatedValue != nullptr)
         {
-            /*
-             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
-             */
-            that-><#name2#> += ;
+            std::cout << "U's val1 value: " << that->val1 << std::endl;
+            that->val1 = *updatedValue;
+            std::cout << "U's val1 updated value: " << that->val1 << std::endl;
+            while( std::abs(that->val2 - that->val1) > 0.001f )
+            {
+                that->val2 += 0.01f;
+            }
+            std::cout << "U's val2 updated value: " << that->val2 << std::endl;
+            return that->val2 * that->val1;
         }
-        std::cout << "U's <#name2#> updated value: " << that-><#name2#> << std::endl;
-        return that-><#name2#> * that-><#name1#>;
+        return 0.0f;
     }
 };
         
 /*
- MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
-
- Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
- 
- If you didn't already: 
-    Make a pull request after you make your first commit
-    pin the pull request link and this repl.it link to our DM thread in a single message.
-
- send me a DM to review your pull request when the project is ready for review.
-
- Wait for my code review.
- */
-
+MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
+         
+Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
+         
+If you didn't already:
+Make a pull request after you make your first commit
+pin the pull request link and this repl.it link to our DM thread in a single message.
+         
+send me a DM to review your pull request when the project is ready for review.
+         
+Wait for my code review.
+*/
+        
 int main()
 {
-    T <#name1#>( , );                                             //6
-    T <#name2#>( , );                                             //6
-    
-    <#structName1#> f;                                            //7
-    auto* smaller = f.compare( , );                              //8
+    T obj1(5 , "obj1");                                             //6
+    T obj2(25 , "obj2");                                             //6
+            
+    CompareF f; //7
+    auto* smaller = f.compare(&obj1 , &obj2);//8
+    if (smaller != nullptr)
+    {
     std::cout << "the smaller one is << " << smaller->name << std::endl; //9
-    
-    U <#name3#>;
+    }
+            
+    U u1;
     float updatedValue = 5.f;
-    std::cout << "[static func] <#name3#>'s multiplied values: " << <#structname2#>::<#staticFunctionA#>( , ) << std::endl;                  //11
-    
-    U <#name4#>;
-    std::cout << "[member func] <#name4#>'s multiplied values: " << <#name4#>.<#memberFunction#>( &updatedValue ) << std::endl;
+    std::cout << "[static func] u1's multiplied values: " << UU::updateU(&u1 , &updatedValue) << std::endl; //11
+            
+    U u2;
+    std::cout << "[member func] u2s multiplied values: " << u2.valUpdate( &updatedValue ) << std::endl;
 }
-
-        
-        
-        
-        
-        
-        
-        
