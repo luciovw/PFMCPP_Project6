@@ -71,8 +71,12 @@ struct CompareF                                //4
 {
     T* compare(T* a, T* b) //5
     {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+        if (a&&b !=nullptr)
+        {
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
+            return nullptr;
+        }
         return nullptr;
     }
 };
@@ -104,15 +108,19 @@ struct UU
 {
     static float updateU(U* that, float* updatedValue )        //10
     {
-        std::cout << "U's val1 value: " << that->val1 << std::endl;
-        that->val1 = *updatedValue;
-        std::cout << "U's val1 updated value: " << that->val1 << std::endl;
-        while( std::abs(that->val2 - that->val1) > 0.001f )
+        if(that && updatedValue != nullptr)
         {
-            that->val2 += 0.01f;
+            std::cout << "U's val1 value: " << that->val1 << std::endl;
+            that->val1 = *updatedValue;
+            std::cout << "U's val1 updated value: " << that->val1 << std::endl;
+            while( std::abs(that->val2 - that->val1) > 0.001f )
+            {
+                that->val2 += 0.01f;
+            }
+            std::cout << "U's val2 updated value: " << that->val2 << std::endl;
+            return that->val2 * that->val1;
         }
-        std::cout << "U's val2 updated value: " << that->val2 << std::endl;
-        return that->val2 * that->val1;
+        return 0.0f;
     }
 };
         
@@ -137,7 +145,10 @@ int main()
             
     CompareF f; //7
     auto* smaller = f.compare(&obj1 , &obj2);//8
+    if (smaller != nullptr)
+    {
     std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    }
             
     U u1;
     float updatedValue = 5.f;
