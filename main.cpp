@@ -71,7 +71,7 @@ struct CompareF                                //4
 {
     T* compare(T* a, T* b) //5
     {
-        if (a&&b !=nullptr)
+        if (a!= nullptr && b != nullptr)
         {
             if( a->value < b->value ) return a;
             if( a->value > b->value ) return b;
@@ -108,7 +108,7 @@ struct UU
 {
     static float updateU(U* that, float* updatedValue )        //10
     {
-        if(that && updatedValue != nullptr)
+        if(that != nullptr && updatedValue != nullptr)
         {
             std::cout << "U's val1 value: " << that->val1 << std::endl;
             that->val1 = *updatedValue;
