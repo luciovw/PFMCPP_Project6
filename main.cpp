@@ -34,14 +34,10 @@ struct T
 
 struct CompareF                                //4
 {
-    T* compare(T* a, T* b) //5
+    T* compare(T& a, T& b) //5
     {
-        if (a!= nullptr && b != nullptr)
-        {
-            if( a->value < b->value ) return a;
-            if( a->value > b->value ) return b;
-            return nullptr;
-        }
+        if( a.value < b.value ) return &a;
+        if( a.value > b.value ) return &b;
         return nullptr;
     }
 };
@@ -49,43 +45,36 @@ struct CompareF                                //4
 struct U
 {
     float val1 { 0 }, val2 { 0 };
-    float valUpdate(float* updatedValue)      //12
+    float valUpdate(const float& updatedValue)      //12
     {
-        if(updatedValue != nullptr)
-        {
-            std::cout << "U -> val1: " << val1 << std::endl;
-            val1 = *updatedValue;
-            std::cout << "U -> val1 updated: " << val1 << std::endl;
+        std::cout << "U -> val1: " << val1 << std::endl;
+        val1 = updatedValue;
+        std::cout << "U -> val1 updated: " << val1 << std::endl;
 
-            while(std::abs(val2 - val1) > 0.001f)
-            {
-                val2 += 0.01f;
-            }
-            
-            std::cout << "U -> val2 updated: " << val2 << std::endl;
-            return val1 * val2;
+        while(std::abs(val2 - val1) > 0.001f)
+        {
+            val2 += 0.01f;
         }
-        return 0.0f;
+            
+        std::cout << "U -> val2 updated: " << val2 << std::endl;
+        return val1 * val2;
+
     }
 };
 
 struct UU
 {
-    static float updateU(U* that, float* updatedValue )        //10
+    static float updateU(U& that, const float& updatedValue )        //10
     {
-        if(that != nullptr && updatedValue != nullptr)
+        std::cout << "U's val1 value: " << that.val1 << std::endl;
+        that.val1 = updatedValue;
+        std::cout << "U's val1 updated value: " << that.val1 << std::endl;
+        while( std::abs(that.val2 - that.val1) > 0.001f )
         {
-            std::cout << "U's val1 value: " << that->val1 << std::endl;
-            that->val1 = *updatedValue;
-            std::cout << "U's val1 updated value: " << that->val1 << std::endl;
-            while( std::abs(that->val2 - that->val1) > 0.001f )
-            {
-                that->val2 += 0.01f;
-            }
-            std::cout << "U's val2 updated value: " << that->val2 << std::endl;
-            return that->val2 * that->val1;
+            that.val2 += 0.01f;
         }
-        return 0.0f;
+        std::cout << "U's val2 updated value: " << that.val2 << std::endl;
+        return that.val2 * that.val1;
     }
 };
         
@@ -109,7 +98,7 @@ int main()
     T obj2(25 , "obj2");                                             //6
             
     CompareF f; //7
-    auto* smaller = f.compare(&obj1 , &obj2);//8
+    auto* smaller = f.compare(obj1 , obj2);//8
     if (smaller != nullptr)
     {
     std::cout << "the smaller one is << " << smaller->name << std::endl; //9
@@ -117,8 +106,8 @@ int main()
             
     U u1;
     float updatedValue = 5.f;
-    std::cout << "[static func] u1's multiplied values: " << UU::updateU(&u1 , &updatedValue) << std::endl; //11
+    std::cout << "[static func] u1's multiplied values: " << UU::updateU(u1 , updatedValue) << std::endl; //11
             
     U u2;
-    std::cout << "[member func] u2s multiplied values: " << u2.valUpdate( &updatedValue ) << std::endl;
+    std::cout << "[member func] u2s multiplied values: " << u2.valUpdate( updatedValue ) << std::endl;
 }
