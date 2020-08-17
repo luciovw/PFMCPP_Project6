@@ -55,10 +55,9 @@ struct U
         {
             val2 += 0.01f;
         }
-            
+        
         std::cout << "U -> val2 updated: " << val2 << std::endl;
         return val1 * val2;
-
     }
 };
 
@@ -101,7 +100,7 @@ int main()
     auto* smaller = f.compare(obj1 , obj2);//8
     if (smaller != nullptr)
     {
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+        std::cout << "the smaller one is << " << smaller->name << std::endl; //9
     }
             
     U u1;
